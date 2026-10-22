@@ -1,0 +1,66 @@
+{
+  "fecha": "2026-10-22T18:17:06.095Z",
+  "navegador": "Microsoft Edge (sin interfaz) con Selenium WebDriver",
+  "resultados": [
+    {
+      "nombre": "PA-01: credenciales incorrectas muestran un mensaje genérico",
+      "ok": true,
+      "ms": 899.7157
+    },
+    {
+      "nombre": "PA-02: un cliente crea su cuenta aceptando el aviso de privacidad y entra al catálogo",
+      "ok": true,
+      "ms": 977.267
+    },
+    {
+      "nombre": "PA-03: el cliente alquila un equipo, registra sus datos y paga con tarjeta",
+      "ok": true,
+      "ms": 1053.4386
+    },
+    {
+      "nombre": "PA-04: un pago rechazado deja el pedido reservado y se puede reintentar",
+      "ok": true,
+      "ms": 730.9678
+    },
+    {
+      "nombre": "PA-05: el cliente ve sus contratos y abre el documento del contrato",
+      "ok": true,
+      "ms": 314.5922
+    },
+    {
+      "nombre": "PA-06: el cliente reporta un problema y ve la prioridad sugerida",
+      "ok": true,
+      "ms": 497.0604
+    },
+    {
+      "nombre": "PA-07: el cliente no puede entrar a las secciones del personal",
+      "ok": true,
+      "ms": 104.9555
+    },
+    {
+      "nombre": "PA-08: cerrar sesión vuelve a la pantalla de inicio de sesión",
+      "ok": true,
+      "ms": 344.2146
+    },
+    {
+      "nombre": "PA-09: el técnico confirma la prioridad, atiende y resuelve el ticket del cliente",
+      "ok": true,
+      "ms": 1027.3606
+    },
+    {
+      "nombre": "PA-10: el administrador consulta los indicadores",
+      "ok": true,
+      "ms": 858.9884
+    },
+    {
+      "nombre": "PA-11: no se puede eliminar un equipo con tickets abiertos",
+      "ok": true,
+      "ms": 347.7911
+    },
+    {
+      "nombre": "PA-12: el administrador elimina un equipo disponible",
+      "ok": true,
+      "ms": 350.0716
+    }
+  ]
+}
