@@ -66,13 +66,13 @@ export default function PaginaIndicadores() {
                   <button type="button" aria-pressed={modo === "tabla"} onClick={() => setModo("tabla")}><Table2 size={14} aria-hidden="true" /> Tabla</button>
                 </div>
               </div>
-              {r.cobradoMensual.length === 0 ? <p className="muted">Datos insuficientes: aún no hay facturas pagadas.</p>
+              {(r.cobradoMensual ?? []).length === 0 ? <p className="muted">Datos insuficientes: aún no hay facturas pagadas.</p>
                 : modo === "grafico"
-                  ? <BarChart titulo="Cobrado por mes" datos={r.cobradoMensual.map((m) => ({ etiqueta: mesCorto(m.mes), valor: m.total }))} />
+                  ? <BarChart titulo="Cobrado por mes" datos={(r.cobradoMensual ?? []).map((m) => ({ etiqueta: mesCorto(m.mes), valor: m.total }))} />
                   : (
                     <table>
                       <thead><tr><th>Mes</th><th className="num">Cobrado</th></tr></thead>
-                      <tbody>{r.cobradoMensual.map((m) => <tr key={m.mes}><td>{mesLargo(m.mes)}</td><td className="num">{pen(m.total)}</td></tr>)}</tbody>
+                      <tbody>{(r.cobradoMensual ?? []).map((m) => <tr key={m.mes}><td>{mesLargo(m.mes)}</td><td className="num">{pen(m.total)}</td></tr>)}</tbody>
                     </table>
                   )}
             </section>
