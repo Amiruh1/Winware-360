@@ -1,0 +1,106 @@
+TAP version 13
+# Subtest: PA-01: credenciales incorrectas muestran un mensaje genérico
+ok 1 - PA-01: credenciales incorrectas muestran un mensaje genérico
+  ---
+  duration_ms: 1434.6263
+  type: 'test'
+  ...
+# Subtest: PA-02: un cliente crea su cuenta aceptando el aviso de privacidad y entra al catálogo
+ok 2 - PA-02: un cliente crea su cuenta aceptando el aviso de privacidad y entra al catálogo
+  ---
+  duration_ms: 1070.3659
+  type: 'test'
+  ...
+# Subtest: PA-03: el cliente alquila un equipo, registra sus datos y paga con tarjeta
+ok 3 - PA-03: el cliente alquila un equipo, registra sus datos y paga con tarjeta
+  ---
+  duration_ms: 1166.5578
+  type: 'test'
+  ...
+# Subtest: PA-04: un pago rechazado deja el pedido reservado y se puede reintentar
+ok 4 - PA-04: un pago rechazado deja el pedido reservado y se puede reintentar
+  ---
+  duration_ms: 749.0731
+  type: 'test'
+  ...
+# Subtest: PA-05: el cliente ve sus contratos y abre el documento del contrato
+ok 5 - PA-05: el cliente ve sus contratos y abre el documento del contrato
+  ---
+  duration_ms: 348.5382
+  type: 'test'
+  ...
+# Subtest: PA-06: el cliente reporta un problema y ve la prioridad sugerida
+ok 6 - PA-06: el cliente reporta un problema y ve la prioridad sugerida
+  ---
+  duration_ms: 543.3365
+  type: 'test'
+  ...
+# Subtest: PA-07: el cliente no puede entrar a las secciones del personal
+ok 7 - PA-07: el cliente no puede entrar a las secciones del personal
+  ---
+  duration_ms: 107.4138
+  type: 'test'
+  ...
+# Subtest: PA-08: cerrar sesión vuelve a la pantalla de inicio de sesión
+ok 8 - PA-08: cerrar sesión vuelve a la pantalla de inicio de sesión
+  ---
+  duration_ms: 362.3827
+  type: 'test'
+  ...
+# Subtest: PA-09: el técnico confirma la prioridad, atiende y resuelve el ticket del cliente
+ok 9 - PA-09: el técnico confirma la prioridad, atiende y resuelve el ticket del cliente
+  ---
+  duration_ms: 1096.3593
+  type: 'test'
+  ...
+# Subtest: PA-10: el administrador consulta los indicadores
+ok 10 - PA-10: el administrador consulta los indicadores
+  ---
+  duration_ms: 911.3242
+  type: 'test'
+  ...
+# Subtest: PA-11: no se puede eliminar un equipo con tickets abiertos
+ok 11 - PA-11: no se puede eliminar un equipo con tickets abiertos
+  ---
+  duration_ms: 398.0961
+  type: 'test'
+  ...
+# Subtest: PA-13: el personal genera el resumen del día con IA en Inicio
+ok 12 - PA-13: el personal genera el resumen del día con IA en Inicio
+  ---
+  duration_ms: 453.9469
+  type: 'test'
+  ...
+# Subtest: PA-14: el personal pide un diagnóstico y un borrador de respuesta para un ticket
+ok 13 - PA-14: el personal pide un diagnóstico y un borrador de respuesta para un ticket
+  ---
+  duration_ms: 294.1045
+  type: 'test'
+  ...
+# Subtest: PA-12: el administrador elimina un equipo disponible
+ok 14 - PA-12: el administrador elimina un equipo disponible
+  ---
+  duration_ms: 389.1989
+  type: 'test'
+  ...
+# Subtest: PA-15: el cliente pide recomendaciones de equipos con IA en el catálogo
+ok 15 - PA-15: el cliente pide recomendaciones de equipos con IA en el catálogo
+  ---
+  duration_ms: 1029.4557
+  type: 'test'
+  ...
+# Subtest: PA-16: el cliente recibe pasos de autoayuda antes de reportar y resume su contrato
+ok 16 - PA-16: el cliente recibe pasos de autoayuda antes de reportar y resume su contrato
+  ---
+  duration_ms: 662.9532
+  type: 'test'
+  ...
+1..16
+# tests 16
+# suites 0
+# pass 16
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 14422.1624
