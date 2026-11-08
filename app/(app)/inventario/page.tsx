@@ -47,6 +47,8 @@ function Inventario() {
   const [nuevo, setNuevo] = useState(false);
   const lista = useCarga(() => api<{ items: Equipo[] }>("/equipos"), []);
   const escribe = puede("equipos", "escribir");
+  // Tarifa, garantía y contrato: el técnico no los ve (el servidor tampoco se los envía).
+  const comercial = puede("fichaComercial");
   const sedes = useMemo(() => [...new Set((lista.datos?.items ?? []).map((e) => e.sede).filter((s): s is string => !!s))].sort(), [lista.datos]);
 
   const filtrados = useMemo(() => {
@@ -63,13 +65,15 @@ function Inventario() {
 
   return (
     <>
-      <PageHeader titulo="Inventario" descripcion="Todos los equipos de Winware, su estado y a qué contrato pertenecen.">
+      <PageHeader titulo="Inventario" descripcion={comercial
+        ? "Todos los equipos de Winware, su estado y a qué contrato pertenecen."
+        : "Equipos disponibles, en mantenimiento o con incidencias abiertas."}>
         {escribe && <button type="button" className="btn" onClick={() => setNuevo(true)}><Plus size={16} aria-hidden="true" /> Nuevo equipo</button>}
       </PageHeader>
 
       <div className="toolbar">
         <label className="search"><Search size={16} aria-hidden="true" />
-          <input type="search" placeholder="Buscar por nombre, serie o contrato" value={texto} onChange={(e) => setTexto(e.target.value)} aria-label="Buscar equipos" />
+          <input type="search" placeholder={comercial ? "Buscar por nombre, serie o contrato" : "Buscar por nombre o serie"} value={texto} onChange={(e) => setTexto(e.target.value)} aria-label="Buscar equipos" />
         </label>
         <select value={estado} onChange={(e) => setEstado(e.target.value as typeof estado)} aria-label="Filtrar por estado">
           <option value="">Todos los estados</option>
@@ -93,19 +97,21 @@ function Inventario() {
         filtrados.length === 0 ? <Vacio>No hay equipos que coincidan con la búsqueda.</Vacio> : (
           <div className="table-wrap">
             <table>
-              <thead><tr><th>Equipo</th><th>Serie</th><th>Estado</th><th>Contrato</th><th className="num">Tarifa mensual</th><th>Garantía</th></tr></thead>
+              <thead><tr><th>Equipo</th><th>Serie</th><th>Estado</th>{comercial && <><th>Contrato</th><th className="num">Tarifa mensual</th><th>Garantía</th></>}</tr></thead>
               <tbody>
                 {filtrados.map((e) => {
-                  const g = garantia(e.garantiaHasta);
+                  const g = comercial ? garantia(e.garantiaHasta) : null;
                   return (
                     <tr key={e.equipoId} className="fila-click" tabIndex={0} onClick={() => router.replace(`/inventario?equipo=${e.equipoId}`)}
                       onKeyDown={(ev) => { if (ev.key === "Enter") router.replace(`/inventario?equipo=${e.equipoId}`); }}>
                       <td><div className="detail-head"><EquipoImagen tipo={e.tipo} nombre={e.nombre} url={e.imagenUrl} variante="mini" /><div><strong>{e.nombre}</strong><small className="muted" style={{ display: "block" }}>{e.equipoId} · {e.tipo}{e.sede ? ` · ${e.sede}` : ""}</small></div></div></td>
                       <td>{e.serie}</td>
                       <td><Badge tono={tonoEquipo(e.estado)} dot>{e.estado}</Badge>{(e.incidenciasAbiertas ?? 0) > 0 && <span className="inline-note"><Badge tono="danger">{plural(e.incidenciasAbiertas!, "incidencia", "incidencias")}</Badge></span>}</td>
-                      <td>{e.contratoId ?? <span className="muted">—</span>}</td>
-                      <td className="num">{pen(e.tarifaMensual)}</td>
-                      <td>{g ? <Badge tono={g.tono}>{g.texto}</Badge> : fechaCorta(e.garantiaHasta)}</td>
+                      {comercial && <>
+                        <td>{e.contratoId ?? <span className="muted">—</span>}</td>
+                        <td className="num">{pen(e.tarifaMensual)}</td>
+                        <td>{g ? <Badge tono={g.tono}>{g.texto}</Badge> : fechaCorta(e.garantiaHasta)}</td>
+                      </>}
                     </tr>
                   );
                 })}
@@ -133,6 +139,7 @@ function FichaEquipo({ id, onCerrar, onCambio }: { id: string; onCerrar: () => v
   const e = det.datos;
   const escribe = puede("equipos", "escribir");
   const escribeMant = puede("mantenimientos", "escribir");
+  const comercial = puede("fichaComercial");
 
   const recargar = async () => { await Promise.all([det.recargar(), onCambio()]); };
 
@@ -167,12 +174,14 @@ function FichaEquipo({ id, onCerrar, onCambio }: { id: string; onCerrar: () => v
           </div>
           <dl className="facts">
             <div><dt>Serie</dt><dd>{e.serie}</dd></div>
-            <div><dt>Contrato</dt><dd>{e.contrato ? `${e.contrato.nombre} (${e.contrato.contratoId})` : "Sin contrato"}</dd></div>
-            <div><dt>Tarifa mensual</dt><dd>{pen(e.tarifaMensual)}</dd></div>
-            <div><dt>Garantía hasta</dt><dd>{fechaCorta(e.garantiaHasta)}</dd></div>
+            {comercial && <>
+              <div><dt>Contrato</dt><dd>{e.contrato ? `${e.contrato.nombre} (${e.contrato.contratoId})` : "Sin contrato"}</dd></div>
+              <div><dt>Tarifa mensual</dt><dd>{pen(e.tarifaMensual)}</dd></div>
+              <div><dt>Garantía hasta</dt><dd>{fechaCorta(e.garantiaHasta)}</dd></div>
+            </>}
             <div><dt>Marca / modelo</dt><dd>{[e.marca, e.modelo].filter(Boolean).join(" ") || "—"}</dd></div>
             <div><dt>Condición</dt><dd>{e.condicion ?? "—"}</dd></div>
-            <div><dt>Garantía al cliente</dt><dd>{e.garantiaMeses ?? 12} meses</dd></div>
+            {comercial && <div><dt>Garantía al cliente</dt><dd>{e.garantiaMeses ?? 12} meses</dd></div>}
             <div><dt>Sede</dt><dd>{e.sede ?? "—"}</dd></div>
             {e.estado === "Reservado" && e.reservaVence && <div><dt>Reservado hasta</dt><dd>{fechaHora(e.reservaVence)} (pedido del portal)</dd></div>}
           </dl>
