@@ -4,7 +4,7 @@ export default function AvisoPrivacidad({ abierto = false }: { abierto?: boolean
     <details className="aviso-privacidad" open={abierto}>
       <summary>Aviso de privacidad</summary>
       <div>
-        <p><b>Responsable:</b> Winware S.A.C. Contacto para consultas sobre tus datos: <i>[pendiente: correo de contacto de Winware]</i>.</p>
+        <p><b>Responsable:</b> Winware S.A.C. Contacto para consultas sobre tus datos: <i>atencionalcliente@winwaresac.com</i>.</p>
         <p><b>Qué datos usamos:</b> nombre, correo, documento (DNI o RUC), teléfono y dirección de facturación. Solo los necesarios para darte el servicio.</p>
         <p><b>Para qué:</b> crear tu cuenta, gestionar tus alquileres, pagos y comprobantes, y atender los problemas que reportes.</p>
         <p><b>Inteligencia artificial:</b> para sugerir la prioridad de un reporte solo se analiza la descripción del problema, sin tus datos personales. La prioridad final siempre la confirma una persona de Winware.</p>
