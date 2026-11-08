@@ -40,7 +40,8 @@ export interface Comentario {
 }
 /** Archivo de evidencia para enviar a la API (CU-10). */
 export interface EvidenciaNueva { nombre: string; tipo: string; base64: string }
-export interface TicketDetalle extends Ticket { equipo: Equipo | null; comentarios: Comentario[] }
+/** `nombres`: nombre de cada correo que aparece en el ticket (creador, responsable, quien confirmó, autores del historial). */
+export interface TicketDetalle extends Ticket { equipo: Equipo | null; comentarios: Comentario[]; nombres?: Record<string, string> }
 
 export interface Cliente {
   clienteId: string; razonSocial: string; ruc: string; contacto: string; correo: string; telefono: string;
