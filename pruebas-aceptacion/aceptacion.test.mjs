@@ -249,3 +249,24 @@ prueba("PA-16: el cliente recibe pasos de autoayuda antes de reportar y resume s
   await pulsar("Resumir con IA");
   await esperarTexto("Vigencia:");
 });
+
+prueba("PA-17: el técnico ve los equipos con serie y estado, sin tarifa, garantía ni contrato, y no los edita", async () => {
+  await salir();
+  await iniciarSesion(PERSONAL.tecnico, PERSONAL.clave);
+  await ir("/inventario/");
+  await esperarTexto("Equipos disponibles, en mantenimiento o con incidencias abiertas");
+  const columnas = await Promise.all((await d.findElements(By.css("thead th"))).map((th) => th.getText()));
+  assert.deepEqual(columnas.map((c) => c.toLowerCase()), ["equipo", "serie", "estado"]);
+  const lista = await d.findElement(By.css("tbody")).getText();
+  assert.doesNotMatch(lista, /S\/\s?\d/);                                          // sin tarifas en la tabla
+  assert.equal((await d.findElements(By.xpath("//button[starts-with(normalize-space(.), 'Nuevo equipo')]"))).length, 0);
+  await ir("/inventario/?equipo=EQ-1004");                                         // en mantenimiento, con ticket abierto
+  await esperarTexto("Mantenimientos");
+  const datos = (await visible(By.css("dl.facts"))).getText();
+  const texto = (await datos).toLowerCase();
+  assert.match(texto, /serie/);
+  for (const oculto of ["tarifa", "garantía", "contrato"]) assert.equal(texto.includes(oculto), false, `se ve «${oculto}»`);
+  assert.equal((await d.findElements(By.xpath("//button[starts-with(normalize-space(.), 'Editar equipo')]"))).length, 0);
+  assert.equal((await d.findElements(By.xpath("//button[starts-with(normalize-space(.), 'Eliminar')]"))).length, 0);
+  await pulsar("Registrar");                                                       // sí registra mantenimientos
+});
