@@ -241,6 +241,8 @@ function FichaTicket({ id, onCerrar, onCambio }: { id: string; onCerrar: () => v
     } catch (x) { aviso(mensajeDe(x), "error"); } finally { setOcupado(false); }
   }
 
+  // Muestra el nombre de la persona; si no está registrado, su correo.
+  const persona = (correo?: string | null) => (correo ? t?.nombres?.[correo] ?? correo : "");
   const asignables = (tecnicos.datos?.items ?? []).filter((u) => u.estado === "Activo" && (u.rol === "Tecnico" || u.rol === "Administrador"));
   const siguiente: Record<EstadoTicket, { a: EstadoTicket; texto: string } | null> = {
     Abierto: { a: "En atención", texto: "Tomar / en atención" }, "En atención": { a: "Resuelto", texto: "Marcar como resuelto" }, Resuelto: null,
@@ -263,9 +265,9 @@ function FichaTicket({ id, onCerrar, onCambio }: { id: string; onCerrar: () => v
           <dl className="facts">
             <div><dt>Equipo</dt><dd>{t.equipo ? `${t.equipo.nombre} (${t.equipo.equipoId})` : "—"}</dd></div>
             {t.sede && <div><dt>Sede</dt><dd>{t.sede}</dd></div>}
-            <div><dt>Creado por</dt><dd>{t.creadoPor}</dd></div>
+            <div><dt>Creado por</dt><dd>{persona(t.creadoPor)}</dd></div>
             <div><dt>Creado</dt><dd>{fechaHora(t.creadoEn ?? t.creado)}</dd></div>
-            <div><dt>Asignado a</dt><dd>{t.asignadoA ?? "Sin asignar"}</dd></div>
+            <div><dt>Asignado a</dt><dd>{t.asignadoA ? persona(t.asignadoA) : "Sin asignar"}</dd></div>
             {t.resueltoEn && <div><dt>Resuelto</dt><dd>{fechaHora(t.resueltoEn)}</dd></div>}
             {t.evidencia && (
               <div><dt>Evidencia</dt><dd>
@@ -284,7 +286,7 @@ function FichaTicket({ id, onCerrar, onCambio }: { id: string; onCerrar: () => v
                 {t.motivoPrioridad && <span> · {t.motivoPrioridad}</span>}
               </p>
               {t.prioridadConfirmada
-                ? <small><CheckCircle2 size={13} aria-hidden="true" /> Prioridad final {t.prioridad.toLowerCase()}, confirmada por {t.confirmadaPor ?? "el equipo"}.</small>
+                ? <small><CheckCircle2 size={13} aria-hidden="true" /> Prioridad final {t.prioridad.toLowerCase()}, confirmada por {t.confirmadaPor ? persona(t.confirmadaPor) : "el equipo"}.</small>
                 : <small>Falta que un técnico la confirme. Hasta entonces no se puede asignar ni atender.</small>}
             </div>
           )}
@@ -319,7 +321,7 @@ function FichaTicket({ id, onCerrar, onCambio }: { id: string; onCerrar: () => v
               {t.comentarios.map((c) => (
                 <li key={`${c.creadoEn}-${c.autor}`} className={c.tipo === "Aviso" || c.tipo === "AvisoFallido" ? `hist-aviso${c.tipo === "AvisoFallido" ? " hist-fallido" : ""}` : undefined}>
                   <time dateTime={c.creadoEn}>{fechaHora(c.creadoEn)}</time>
-                  <span className="autor">{c.autor === "sistema" ? "Sistema" : c.autor}</span>
+                  <span className="autor">{c.autor === "sistema" ? "Sistema" : persona(c.autor)}</span>
                   <p>{c.texto}</p>
                 </li>
               ))}
