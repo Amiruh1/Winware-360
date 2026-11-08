@@ -1,5 +1,5 @@
 export type Rol = "Administrador" | "Administracion" | "Tecnico" | "Cliente";
-export type Recurso = "equipos" | "mantenimientos" | "tickets" | "gestionTickets" | "contratos" | "clientes" | "finanzas" | "usuarios" | "alertas" | "resumen" | "indicadores" | "portal";
+export type Recurso = "equipos" | "fichaComercial" | "mantenimientos" | "tickets" | "gestionTickets" | "contratos" | "clientes" | "finanzas" | "usuarios" | "alertas" | "resumen" | "indicadores" | "portal";
 export type Permisos = Record<Recurso, { leer: boolean; escribir: boolean }>;
 
 export interface Me { correo: string; nombre: string; rol: Rol | null; estado: string; permisos: Permisos; clienteId?: string }
